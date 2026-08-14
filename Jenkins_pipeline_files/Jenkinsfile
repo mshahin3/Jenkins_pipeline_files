@@ -9,36 +9,36 @@ pipeline {
             }
         }
 
-       stage('Build') {
-    steps {
-        bat '''
-            echo Workspace: %WORKSPACE%
-            cd /d "%WORKSPACE%\\Jenkins_pipeline_files\\maven-samples\\single-module"
-            echo Current Directory:
-            cd
-            dir
-            mvn clean install
-        '''
-    }
-}
+        stage('Build') {
+            steps {
+                bat '''
+                    echo Workspace: %WORKSPACE%
+                    cd /d "%WORKSPACE%\\Jenkins_pipeline_files\\maven-samples\\single-module"
+                    echo Current Directory:
+                    cd
+                    dir
+                    mvn clean install
+                '''
+            }
+        }
 
         stage('Test Results') {
             steps {
-                junit 'maven-samples/single-module/target/surefire-reports/*.xml'
+                junit 'Jenkins_pipeline_files/maven-samples/single-module/target/surefire-reports/*.xml'
             }
         }
 
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'maven-samples/single-module/target/*.jar',
-                                 allowEmptyArchive: false
+                archiveArtifacts artifacts: 'Jenkins_pipeline_files/maven-samples/single-module/target/*.jar',
+                                 fingerprint: true
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Pipeline completed successfully!'
         }
 
         failure {

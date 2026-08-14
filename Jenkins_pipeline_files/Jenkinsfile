@@ -9,23 +9,18 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                bat '''
-                    echo Workspace:
-                    echo %WORKSPACE%
-
-                    cd /d "%WORKSPACE%\\maven-samples\\single-module"
-
-                    echo Current Directory:
-                    cd
-
-                    dir
-
-                    mvn clean install
-                '''
-            }
-        }
+       stage('Build') {
+    steps {
+        bat '''
+            echo Workspace: %WORKSPACE%
+            cd /d "%WORKSPACE%\\Jenkins_pipeline_files\\maven-samples\\single-module"
+            echo Current Directory:
+            cd
+            dir
+            mvn clean install
+        '''
+    }
+}
 
         stage('Test Results') {
             steps {
